@@ -1,6 +1,6 @@
 package tcp;
 
-import tcp.callback.RequestCallBack;
+import tcp.callback.RequestCallback;
 import tcp.protocol.DataProtocol;
 
 /**
@@ -13,7 +13,7 @@ public class ConnectionClient {
 
     private ClientRequestTask mClientRequestTask;
 
-    public ConnectionClient(RequestCallBack requestCallBack) {
+    public ConnectionClient(RequestCallback requestCallBack) {
         mClientRequestTask = new ClientRequestTask(requestCallBack);
         new Thread(mClientRequestTask).start();
     }

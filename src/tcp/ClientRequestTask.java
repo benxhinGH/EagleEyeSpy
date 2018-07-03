@@ -1,5 +1,6 @@
 package tcp;
 
+import tcp.callback.RequestCallback;
 import tcp.protocol.BasicProtocol;
 import tcp.protocol.DataProtocol;
 import tcp.protocol.PingProtocol;
@@ -23,19 +24,19 @@ public class ClientRequestTask implements Runnable {
     private static final int FAILED = -1;
 
     private boolean isLongConnection = true;
-    private Handler mHandler;
     private SendTask mSendTask;
     private ReciveTask mReciveTask;
     private HeartBeatTask mHeartBeatTask;
     private Socket mSocket;
+    private RequestCallback callback;
 
     private boolean isSocketAvailable;
     private boolean closeSendTask;
 
     protected volatile ConcurrentLinkedQueue<BasicProtocol> dataQueue = new ConcurrentLinkedQueue<>();
 
-    public ClientRequestTask(RequestCallBack requestCallBacks) {
-        mHandler = new MyHandler(requestCallBacks);
+    public ClientRequestTask(RequestCallback requestCallBacks) {
+        this.callback=requestCallBacks;
     }
 
     @Override
@@ -196,18 +197,11 @@ public class ClientRequestTask implements Runnable {
     }
 
     private void failedMessage(int code, String msg) {
-        Message message = mHandler.obtainMessage(FAILED);
-        message.what = FAILED;
-        message.arg1 = code;
-        message.obj = msg;
-        mHandler.sendMessage(message);
+        callback.onFailed(code, msg);
     }
 
     private void successMessage(BasicProtocol protocol) {
-        Message message = mHandler.obtainMessage(SUCCESS);
-        message.what = SUCCESS;
-        message.obj = protocol;
-        mHandler.sendMessage(message);
+        callback.onSuccess(protocol);
     }
 
     private boolean isConnected() {
@@ -218,33 +212,7 @@ public class ClientRequestTask implements Runnable {
         return true;
     }
 
-    /**
-     * 服务器返回处理，主线程运行
-     */
-    public class MyHandler extends Handler {
-
-        private RequestCallBack mRequestCallBack;
-
-        public MyHandler(RequestCallBack callBack) {
-            super(Looper.getMainLooper());
-            this.mRequestCallBack = callBack;
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case SUCCESS:
-                    mRequestCallBack.onSuccess((BasicProtocol) msg.obj);
-                    break;
-                case FAILED:
-                    mRequestCallBack.onFailed(msg.arg1, (String) msg.obj);
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
+    
 
     /**
      * 数据接收线程

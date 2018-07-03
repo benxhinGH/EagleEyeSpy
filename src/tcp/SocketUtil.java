@@ -24,10 +24,10 @@ public class SocketUtil {
     private static Map<Integer, String> msgImp = new HashMap<>();
 
     static {
-        msgImp.put(DataProtocol.PROTOCOL_TYPE, "com.usiellau.conferenceol.tcp.protocol.DataProtocol");       //0
-        msgImp.put(DataAckProtocol.PROTOCOL_TYPE, "com.usiellau.conferenceol.tcp.protocol.DataAckProtocol"); //1
-        msgImp.put(PingProtocol.PROTOCOL_TYPE, "com.usiellau.conferenceol.tcp.protocol.PingProtocol");       //2
-        msgImp.put(PingAckProtocol.PROTOCOL_TYPE, "com.usiellau.conferenceol.tcp.protocol.PingAckProtocol"); //3
+        msgImp.put(DataProtocol.PROTOCOL_TYPE, "tcp.protocol.DataProtocol");       //0
+        msgImp.put(DataAckProtocol.PROTOCOL_TYPE, "tcp.protocol.DataAckProtocol"); //1
+        msgImp.put(PingProtocol.PROTOCOL_TYPE, "tcp.protocol.PingProtocol");       //2
+        msgImp.put(PingAckProtocol.PROTOCOL_TYPE, "tcp.protocol.PingAckProtocol"); //3
     }
 
     /**
