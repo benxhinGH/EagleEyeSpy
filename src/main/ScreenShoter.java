@@ -8,6 +8,7 @@ import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 
 import javax.imageio.ImageIO;
 
@@ -32,6 +33,15 @@ public class ScreenShoter {
 	public void img2file(BufferedImage bi,String suffix,String newFile) {
 		try {
 			ImageIO.write(bi, suffix, new File(newFile));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void img2Stream(BufferedImage bi,String suffix,OutputStream output) {
+		try {
+			ImageIO.write(bi, suffix, output);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
