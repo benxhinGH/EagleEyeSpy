@@ -232,7 +232,8 @@ public class ClientRequestTask implements Runnable {
                 if (inputStream != null) {
                     BasicProtocol reciverData = SocketUtil.readFromStream(inputStream);
                     if (reciverData != null) {
-                        if (reciverData.getProtocolType() == 1 || reciverData.getProtocolType() == 3) {
+                        if (reciverData.getProtocolType() == 1 || reciverData.getProtocolType() == 3||
+                        		reciverData.getProtocolType()==0) {
                             successMessage(reciverData);
                         }
                     } else {
