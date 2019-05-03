@@ -1,4 +1,4 @@
-package main;
+package utils;
 
 import java.awt.AWTException;
 import java.awt.Dimension;
@@ -14,7 +14,7 @@ import javax.imageio.ImageIO;
 
 public class ScreenShoter {
 	
-	public BufferedImage getScreen() {
+	public static BufferedImage getScreen() {
 		try {
 			Robot rb=new Robot();
 			Toolkit tk=Toolkit.getDefaultToolkit();
@@ -30,7 +30,7 @@ public class ScreenShoter {
 		
 	}
 	
-	public void img2file(BufferedImage bi,String suffix,String newFile) {
+	public static void img2file(BufferedImage bi,String suffix,String newFile) {
 		try {
 			ImageIO.write(bi, suffix, new File(newFile));
 		} catch (IOException e) {
@@ -38,8 +38,17 @@ public class ScreenShoter {
 			e.printStackTrace();
 		}
 	}
+
+	public static void img2file(BufferedImage bi,String suffix,File newFile) {
+		try {
+			ImageIO.write(bi, suffix, newFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
-	public void img2Stream(BufferedImage bi,String suffix,OutputStream output) {
+	public static void img2Stream(BufferedImage bi,String suffix,OutputStream output) {
 		try {
 			ImageIO.write(bi, suffix, output);
 		} catch (IOException e) {
