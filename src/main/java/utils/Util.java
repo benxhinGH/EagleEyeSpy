@@ -1,5 +1,7 @@
 package utils;
 
+import io.netty.channel.ChannelHandlerContext;
+
 import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
@@ -179,6 +181,12 @@ public class Util {
 			}
 		}
 		return -1;
+	}
+
+	public static InetAddress getChannelRemoteAddressIp(ChannelHandlerContext ctx){
+		SocketAddress socketAddress = ctx.channel().remoteAddress();
+		InetSocketAddress inetSocketAddress = (InetSocketAddress) socketAddress;
+		return inetSocketAddress.getAddress();
 	}
 
 }

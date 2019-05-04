@@ -19,4 +19,12 @@ public class ProtocolFactory {
         return basicProtocol;
     }
 
+    public static BasicProtocol createIdentification(){
+        BasicProtocol basicProtocol = new BasicProtocol();
+        basicProtocol.setMsgId(MsgId.IDENTIFICATION_REQUEST);
+        String localHostname = Util.getLocalHostname();
+        basicProtocol.setDataArray(localHostname.getBytes());
+        return basicProtocol;
+    }
+
 }

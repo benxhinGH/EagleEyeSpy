@@ -1,29 +1,19 @@
 package main;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-
-import utils.ScreenShoter;
+import network.Client;
+import utils.Config;
 
 public class Main {
 	
-	public static final int CONNECT_PERIOD=5000;
+	public static Client client;
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		client = new Client(Config.REMOTE_SERVER_ADDRESS, Config.REMOTE_SERVER_PORT, null);
+		client.start();
 	}
 	
 
-	
-	public static String takeScreenShot() {
-		System.out.println("screen shot");
-		ScreenShoter ss=new ScreenShoter();
-		BufferedImage bi=ss.getScreen();
-		String filePath="/home/usiel/Pictures/img"+System.currentTimeMillis();
-		ss.img2file(bi, "png", filePath);
-		return filePath;
-	}
+
 
 
 }

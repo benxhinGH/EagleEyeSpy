@@ -6,6 +6,7 @@ import utils.Log;
 import utils.Util;
 
 import java.io.File;
+import java.util.HashMap;
 
 public class ImageCacheManager {
 
@@ -14,6 +15,7 @@ public class ImageCacheManager {
     private String cacheDirPath = Util.getUserHomeDir() + "\\cn.frankliu.ees";
     private File cacheDir;
     private static ImageCacheManager instance;
+    private HashMap<Integer, File> fileMap;
     private ImageCacheManager(){
         cacheDir = new File(cacheDirPath);
         if(!cacheDir.exists()){
@@ -21,6 +23,7 @@ public class ImageCacheManager {
                 Log.e(TAG, "make image cache dir fail!");
             }
         }
+        fileMap = new HashMap<>();
     }
 
     public static ImageCacheManager getInstance(){
@@ -30,8 +33,18 @@ public class ImageCacheManager {
         return instance;
     }
 
-    public File newImageFile(){
+    public File newImageFile(int transactionId){
         String fileName = cacheDirPath + String.valueOf(System.currentTimeMillis()) + "." + Config.DEFAULT_IMAGE_FORMAT;
-        return new File(fileName);
+        File file = new File(fileName);
+        fileMap.put(transactionId, file);
+        return file;
+    }
+
+    public File getCache(int transactionId){
+        return fileMap.get(transactionId);
+    }
+
+    public void free(int transactionId){
+        fileMap.remove(transactionId);
     }
 }
