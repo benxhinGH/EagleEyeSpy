@@ -45,6 +45,9 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
                 if(ErrorCode.SUCCESS == basicProtocol.getErrorCode()){
                     int trgPort = Util.byteArrayToInt(basicProtocol.getDataArray());
                     File file = ImageCacheManager.getInstance().getCache(transactionId);
+                    if(file == null){
+                        Log.e(TAG, "file should not be null");
+                    }
                     InetAddress remoteAddr = Util.getChannelRemoteAddressIp(ctx);
                     FileSender fileSender = new FileSender(remoteAddr, trgPort, file, new FileSenderCallback() {
                         @Override
