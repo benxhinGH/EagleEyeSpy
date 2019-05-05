@@ -25,7 +25,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        ctx.writeAndFlush(ProtocolFactory.createIdentification());
+        ctx.writeAndFlush(ProtocolFactory.createIdentificationRequest());
     }
 
     @Override
@@ -34,6 +34,8 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
         int transactionId = basicProtocol.getTransactionId();
         switch (basicProtocol.getMsgId()){
             case MsgId.SCREENSHOT_REQUEST:
+                BasicProtocol screenShotResponse = ProtocolFactory.createScreenShotResponse(transactionId);
+                ctx.writeAndFlush(screenShotResponse);
                 File imageFile = ImageCacheManager.getInstance().newImageFile(transactionId);
                 ScreenShoter.img2file(ScreenShoter.getScreen(), Config.DEFAULT_IMAGE_FORMAT, imageFile);
                 BasicProtocol fileRequest = ProtocolFactory.createFileSendRequest(transactionId, imageFile);

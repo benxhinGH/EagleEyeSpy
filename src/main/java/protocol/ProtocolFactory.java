@@ -19,11 +19,19 @@ public class ProtocolFactory {
         return basicProtocol;
     }
 
-    public static BasicProtocol createIdentification(){
+    public static BasicProtocol createIdentificationRequest(){
         BasicProtocol basicProtocol = new BasicProtocol();
         basicProtocol.setMsgId(MsgId.IDENTIFICATION_REQUEST);
         String localHostname = Util.getLocalHostname();
-        basicProtocol.setDataArray(localHostname.getBytes());
+        IdentificationRequest identificationRequest = new IdentificationRequest(localHostname, IdentificationRequest.TERMINAL_TYPE_SPY);
+        basicProtocol.setDataArray(identificationRequest.getBytes());
+        return basicProtocol;
+    }
+
+    public static BasicProtocol createScreenShotResponse(int transactionId){
+        BasicProtocol basicProtocol = new BasicProtocol();
+        basicProtocol.setMsgId(MsgId.SCREENSHOT_RESPONSE);
+        basicProtocol.setTransactionId((byte)transactionId);
         return basicProtocol;
     }
 
