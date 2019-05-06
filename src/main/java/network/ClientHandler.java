@@ -32,6 +32,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         BasicProtocol basicProtocol = (BasicProtocol)msg;
         int transactionId = basicProtocol.getTransactionId();
+        Log.log(TAG, LogLevel.INFO, "receive msg:" + basicProtocol.toString());
         switch (basicProtocol.getMsgId()){
             case MsgId.SCREENSHOT_REQUEST:
                 BasicProtocol screenShotResponse = ProtocolFactory.createScreenShotResponse(transactionId);
